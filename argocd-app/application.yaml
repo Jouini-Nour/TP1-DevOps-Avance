@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-gitops-app
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: |
+      nginx-container=nourahmidi/tp1-nginx-app:latest
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/NourAhmidi/TP1-DevOps-Avance.git
+    targetRevision: HEAD
+    path: kustomize-app/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
