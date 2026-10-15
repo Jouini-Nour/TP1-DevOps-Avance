@@ -47,7 +47,7 @@ kubectl create namespace gitops-namespace --dry-run=client -o yaml | kubectl app
 sleep 2
 
 echo "[ETAPES] Application des manifests Kubernetes via Kustomize..."
-kustomize build kustomize-app/base/ | kubectl apply -f -
+kubectl apply -k kustomize-app/base/
 
 echo "[SUCCES] Manifests appliques !"
 echo ""
@@ -68,7 +68,7 @@ kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
 sleep 1
 
 echo "   Installation d'ArgoCD v2.11.0 (stable)..."
-kubectl apply -n argocd -f "https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.0/manifests/install.yaml" --force-conflicts=true
+kubectl apply -n argocd -f "https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.0/manifests/install.yaml" --server-side=true
 
 echo "   Attente du deploiement d'ArgoCD (~90s)..."
 sleep 90
