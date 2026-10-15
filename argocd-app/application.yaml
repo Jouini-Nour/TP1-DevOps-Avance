@@ -3,13 +3,10 @@ kind: Application
 metadata:
   name: nginx-gitops-app
   namespace: argocd
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: |
-      nginx-container=nourahmidi/tp1-nginx-app:latest
 spec:
   project: default
   source:
-    repoURL: https://github.com/NourAhmidi/TP1-DevOps-Avance.git
+    repoURL: https://github.com/Jouini-Nour/TP1-DevOps-Avance.git
     targetRevision: HEAD
     path: kustomize-app/overlays/dev
   destination:
